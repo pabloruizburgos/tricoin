@@ -9,7 +9,7 @@ impl Blockchain {
     pub fn new() -> Self {
         let mut chain = Blockchain {
             chain: Vec::new(),
-            difficulty: 2, // Difficulty: match the first 2 bytes
+            difficulty: 8, // Difficulty: match the first 8 bytes
         };
         chain.add_genesis_block();
         chain
@@ -30,6 +30,19 @@ impl Blockchain {
     }
 
     pub fn is_valid(&self) -> bool {
+        for i in 1..self.chain.len() {
+            // We start iterating from the second block ([1]) as the genesis block doesn't need to be checked
+            let current_block = &self.chain[i];
+            let previous_block = &self.chain[i - 1];
+
+            if current_block.hash != current_block.calculate_hash() {
+                return false;
+            }
+
+            if current_block.previous_hash != previous_block.hash {
+                return false;
+            }
+        }
         true
     }
 

@@ -37,7 +37,7 @@ impl Block {
         block
     }
 
-    fn calculate_hash(&self) -> String {
+    pub fn calculate_hash(&self) -> String {
         let data = format!(
             "{}{}{}{}{}",
             self.index, self.timestamp, self.data, self.previous_hash, self.nonce
