@@ -1,6 +1,6 @@
+use crate::utils::current_timestamp;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Block {
@@ -14,20 +14,9 @@ pub struct Block {
 
 impl Block {
     pub fn new(index: u64, data: String, previous_hash: String) -> Self {
-        let timestamp = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("This went backwards...") // now() time should never be before EPOCH time
-            .as_secs();
-        /*
-        Better way of handling date errors:
-        match timestamp.duration_since(UNIX_EPOCH) {
-            Ok(duration) => {}
-            Err(e) => {
-                eprintln!("This went backwards... ERROR: {:?}", e);
-        */
         let mut block = Block {
             index,
-            timestamp,
+            timestamp: 0, // Time set when the block is mined
             data,
             previous_hash,
             hash: String::new(),
@@ -52,6 +41,7 @@ impl Block {
         let target = "0".repeat(difficulty); // Target: first difficulty bytes must be 0
         while &self.hash[..difficulty] != target {
             self.nonce += 1;
+            self.timestamp = current_timestamp();
             self.hash = self.calculate_hash();
         }
         println!("Block mined: {}", self.hash);

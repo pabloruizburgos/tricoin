@@ -1,4 +1,5 @@
 use crate::block::Block;
+use crate::utils::current_timestamp;
 
 pub struct Blockchain {
     pub chain: Vec<Block>,
@@ -9,7 +10,7 @@ impl Blockchain {
     pub fn new() -> Self {
         let mut chain = Blockchain {
             chain: Vec::new(),
-            difficulty: 8, // Difficulty: match the first 8 bytes
+            difficulty: 5, // Difficulty: match the first 5 bytes
         };
         chain.add_genesis_block();
         chain
@@ -18,7 +19,8 @@ impl Blockchain {
     // This "genesis block" would be the first in our chain by default always
     fn add_genesis_block(&mut self) {
         // Block constructor: {index, data, prev_hash}
-        let genesis_block = Block::new(0, "Genesis Block".to_string(), "0".to_string());
+        let mut genesis_block = Block::new(0, "Genesis Block".to_string(), "0".to_string());
+        genesis_block.timestamp = current_timestamp();
         self.chain.push(genesis_block);
     }
 
