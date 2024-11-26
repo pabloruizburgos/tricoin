@@ -24,7 +24,7 @@ impl Blockchain {
         let genesis_transaction = Transaction::new(
             "".to_string(),
             "".to_string(),
-            Decimal::new(50, 0),
+            Decimal::new(5000, 2),
             Decimal::new(0, 0),
             "The Times 26/Nov/2024 Chancellor on brink of second bailout for banks".to_string(),
         );
