@@ -10,7 +10,7 @@ impl Blockchain {
     pub fn new() -> Self {
         let mut chain = Blockchain {
             chain: Vec::new(),
-            difficulty: 5, // Difficulty: match the first 5 bytes
+            difficulty: 5, // Difficulty: match the first 4 bytes (2 is the minimum assignable)
         };
         chain.add_genesis_block();
         chain
@@ -19,13 +19,13 @@ impl Blockchain {
     // This "genesis block" would be the first in our chain by default always
     fn add_genesis_block(&mut self) {
         // Block constructor: {index, data, prev_hash}
-        let mut genesis_block = Block::new(0, "Genesis Block".to_string(), "0".to_string());
+        let mut genesis_block = Block::new(0, vec!["Genesis Block".to_string()], "0".to_string());
         genesis_block.timestamp = current_timestamp();
         self.chain.push(genesis_block);
     }
 
-    pub fn add_block(&mut self, data: String) {
-        let previous_block = self.chain.last().expect("Genesis didn't happen?");
+    pub fn add_block(&mut self, data: Vec<String>) {
+        let previous_block = self.chain.last().expect("Genesis didn't happen");
         let mut new_block = Block::new(previous_block.index + 1, data, previous_block.hash.clone());
         new_block.mine_block(self.difficulty);
         self.chain.push(new_block);
@@ -48,9 +48,16 @@ impl Blockchain {
         true
     }
 
+    // WARNING: this function is for debug purposes only
+    pub fn total_time_mining(&self) -> u64 {
+        self.chain[self.chain.len() - 1].timestamp - self.chain[0].timestamp
+    }
+
     pub fn display(&self) {
         for block in &self.chain {
-            println!("{:?}", block);
+            block.display();
         }
+        println!("\n\nTotal mining time: {:?}s", self.total_time_mining()); // delete when
+                                                                            // due
     }
 }
