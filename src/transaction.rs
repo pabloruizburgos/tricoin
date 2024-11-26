@@ -1,4 +1,4 @@
-use rust_decimal::Decimal; // NOTE: maybe use float and ok??
+use rust_decimal::Decimal; // NOTE: maybe use float instead?
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
