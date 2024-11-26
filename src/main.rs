@@ -4,18 +4,22 @@ mod transaction;
 mod utils;
 
 use blockchain::Blockchain;
+use transaction::Transaction;
 
+// TODO: add transactions instead of data directly
 fn main() {
     let mut blockchain = Blockchain::new();
     print!("Creation of the blockchain:");
     blockchain.display();
 
-    println!("\nMining new blocks...");
-    blockchain.add_block(vec!["Transaction of the first <real> block".to_string()]);
+    // Add transactions
+    let transactions: Vec<Transaction> = Transaction::create_transactions();
 
-    // Add two more blocks
-    blockchain.add_block(vec!["Pablo stole 100bitcoins :c".to_string()]);
-    blockchain.add_block(vec!["Transaction of Santander 26-11-2024".to_string()]);
+    // Add new blocks to the blockchain
+    println!("\nMining new blocks...");
+    blockchain.add_block(transactions);
+    //blockchain.add_block(transactions);
+    //blockchain.add_block(transactions);
 
     // Verify blockchain integrity
     if blockchain.is_valid() {

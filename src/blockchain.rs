@@ -1,5 +1,7 @@
 use crate::block::Block;
+use crate::transaction::Transaction;
 use crate::utils::current_timestamp;
+use rust_decimal::Decimal;
 
 pub struct Blockchain {
     pub chain: Vec<Block>,
@@ -19,12 +21,19 @@ impl Blockchain {
     // This "genesis block" would be the first in our chain by default always
     fn add_genesis_block(&mut self) {
         // Block constructor: {index, data, prev_hash}
-        let mut genesis_block = Block::new(0, vec!["Genesis Block".to_string()], "0".to_string());
+        let genesis_transaction = Transaction::new(
+            "".to_string(),
+            "".to_string(),
+            Decimal::new(0, 0),
+            Decimal::new(0, 0),
+            "The Times 26/Nov/2024 Chancellor on brink of second bailout for banks".to_string(),
+        );
+        let mut genesis_block = Block::new(0, vec![genesis_transaction], "0".to_string());
         genesis_block.timestamp = current_timestamp();
         self.chain.push(genesis_block);
     }
 
-    pub fn add_block(&mut self, data: Vec<String>) {
+    pub fn add_block(&mut self, data: Vec<Transaction>) {
         let previous_block = self.chain.last().expect("Genesis didn't happen");
         let mut new_block = Block::new(previous_block.index + 1, data, previous_block.hash.clone());
         new_block.mine_block(self.difficulty);
@@ -57,7 +66,6 @@ impl Blockchain {
         for block in &self.chain {
             block.display();
         }
-        println!("\n\nTotal mining time: {:?}s", self.total_time_mining()); // delete when
-                                                                            // due
+        println!("\n\nTotal mining time: {:?}s", self.total_time_mining()); // delete when due
     }
 }

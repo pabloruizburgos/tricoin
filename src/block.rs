@@ -1,3 +1,4 @@
+use crate::transaction::Transaction;
 use crate::utils::current_timestamp;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -6,7 +7,7 @@ use sha2::{Digest, Sha256};
 pub struct Block {
     pub index: u64,
     pub timestamp: u64,
-    pub data: Vec<String>,
+    pub data: Vec<Transaction>,
     pub merkle_root: String, // NOTE: understand well
     pub previous_hash: String,
     pub hash: String,
@@ -14,7 +15,7 @@ pub struct Block {
 }
 
 impl Block {
-    pub fn new(index: u64, data: Vec<String>, previous_hash: String) -> Self {
+    pub fn new(index: u64, data: Vec<Transaction>, previous_hash: String) -> Self {
         let mut block = Block {
             index,
             timestamp: 0, // Time will be set when the block is mined
@@ -51,7 +52,7 @@ impl Block {
     }
 
     fn calculate_merkle_root(&self) -> String {
-        let data = format!("{}", self.data[0]); // WARNING: rn just taking 1 transaction, not acting as Vec
+        let data = self.data[0].display(); // WARNING: rn just taking 1 transaction, not acting as Vec
         let mut hasher = Sha256::new();
         hasher.update(data);
         format!("{:x}", hasher.finalize())
@@ -59,7 +60,7 @@ impl Block {
 
     // FIX: change so it admits really a vec
     fn display_transactions(&self) -> String {
-        format!("{}", self.data[0])
+        self.data[0].display()
     }
 
     // NOTE: the transactions aren't included in the header (tho they are via the merkle root),
