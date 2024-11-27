@@ -1,6 +1,5 @@
 mod block;
 mod blockchain;
-//mod transaction;
 mod utils;
 
 use blockchain::Blockchain;
