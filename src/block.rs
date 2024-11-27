@@ -8,7 +8,7 @@ pub struct Block {
     pub index: u64,
     pub timestamp: u64,
     pub data: Vec<Transaction>,
-    pub merkle_root: String, // NOTE: understand well
+    pub merkle_root: String,
     pub previous_hash: String,
     pub hash: String,
     pub nonce: u64, // For the PoW, when changed, the hash canges (here it is incremental by 1)
@@ -31,7 +31,7 @@ impl Block {
     }
 
     pub fn calculate_hash(&self) -> String {
-        // NOTE: now we rehash the merkle root, not using the data directly. Cool!
+        // NOTE: now we rehash the merkle root, without using the data directly. Cool!
         let data = format!(
             "{}{}{}{}{}",
             self.index, self.timestamp, self.merkle_root, self.previous_hash, self.nonce
@@ -56,7 +56,6 @@ impl Block {
      * string and hashes it, and returns said hash
      */
     fn calculate_merkle_root(&self) -> String {
-        println!("calculating merkle root of {}", self.index);
         let data = self.get_all_transactions_as_string();
         let mut hasher = Sha256::new();
         hasher.update(data);
@@ -75,6 +74,12 @@ impl Block {
         vector_transactions.join("")
     }
 
+    fn display_transactions(&self) {
+        for transaction in &self.data {
+            transaction.display();
+        }
+    }
+
     pub fn display(&self) {
         print!(
             "\nBlock: 
@@ -85,16 +90,10 @@ impl Block {
         Previous hash: {}
         Hash: {}
         Nonce: {}
-    <Transactions>
-        {}",
-            self.index,
-            self.timestamp,
-            self.merkle_root,
-            self.previous_hash,
-            self.hash,
-            self.nonce,
-            self.data[0].display(), // WARNING: rn just taking 1 transaction, not acting as Vec
+    <Transactions>",
+            self.index, self.timestamp, self.merkle_root, self.previous_hash, self.hash, self.nonce,
         );
         // NOTE: transactions aren't included in the header (they are via the merkle root)
+        self.display_transactions();
     }
 }
