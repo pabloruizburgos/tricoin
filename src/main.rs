@@ -21,6 +21,7 @@ fn main() {
         0.01,
         "Regalo cumple Sebas".to_string(),
     )];
+
     let transaction3: Vec<Transaction> = vec![Transaction::new(
         "Sophia".to_string(),
         "Marco".to_string(),
