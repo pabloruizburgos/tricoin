@@ -51,6 +51,7 @@ impl Block {
         println!("Block mined: {}", self.hash)
     }
 
+    // FIX: this isn't a merkle root... bi-tree!
     /*
      * Calculates the merkle root of the transactions 'data' by taking each transaction as a single
      * string and hashes it, and returns said hash
