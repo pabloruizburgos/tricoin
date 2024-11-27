@@ -6,34 +6,30 @@ use sha2::{Digest, Sha256};
 pub struct Block {
     pub index: u64,
     pub timestamp: u64,
-    pub data: Vec<String>,
-    pub merkle_root: String, // NOTE: understand well
+    pub data: String,
     pub previous_hash: String,
     pub hash: String,
     pub nonce: u64, // For the PoW, when changed, the hash canges (here it is incremental by 1)
 }
 
 impl Block {
-    pub fn new(index: u64, data: Vec<String>, previous_hash: String) -> Self {
+    pub fn new(index: u64, data: String, previous_hash: String) -> Self {
         let mut block = Block {
             index,
             timestamp: 0, // Time will be set when the block is mined
             data,
-            merkle_root: String::new(),
             previous_hash,
             hash: String::new(),
             nonce: 0,
         };
         block.hash = block.calculate_hash();
-        block.merkle_root = block.calculate_merkle_root();
         block
     }
 
     pub fn calculate_hash(&self) -> String {
-        // NOTE: now we rehash the merkle root, not using the data directly. Cool!
         let data = format!(
             "{}{}{}{}{}",
-            self.index, self.timestamp, self.merkle_root, self.previous_hash, self.nonce
+            self.index, self.timestamp, self.data, self.previous_hash, self.nonce
         );
         let mut hasher = Sha256::new();
         hasher.update(data);
@@ -50,39 +46,16 @@ impl Block {
         println!("Block mined: {}", self.hash)
     }
 
-    fn calculate_merkle_root(&self) -> String {
-        let data = format!("{}", self.data[0]); // WARNING: rn just taking 1 transaction, not acting as Vec
-        let mut hasher = Sha256::new();
-        hasher.update(data);
-        format!("{:x}", hasher.finalize())
-    }
-
-    // FIX: change so it admits really a vec
-    fn display_transactions(&self) -> String {
-        format!("{}", self.data[0])
-    }
-
-    // NOTE: the transactions aren't included in the header (tho they are via the merkle root),
-    // this guarantees more secure info management
     pub fn display(&self) {
         print!(
             "\nBlock: 
-    <Header>
-        Index: {}
-        Timestamp: {}
-        Merkle Root: {}
-        Previous hash: {}
-        Hash: {}
-        Nonce: {}
-    <Transactions>
-        {}",
-            self.index,
-            self.timestamp,
-            self.merkle_root,
-            self.previous_hash,
-            self.hash,
-            self.nonce,
-            self.display_transactions(),
+    Index: {}
+    Timestamp: {}
+    Data: {}
+    Previous hash: {}
+    Hash: {}
+    Nonce: {}",
+            self.index, self.timestamp, self.data, self.previous_hash, self.hash, self.nonce,
         );
     }
 }
