@@ -4,15 +4,11 @@ use crate::utils::current_timestamp;
 
 pub struct Blockchain {
     pub chain: Vec<Block>,
-    pub difficulty: usize, // the target byte slice that the beginning of the hash must match
 }
 
 impl Blockchain {
     pub fn new() -> Self {
-        let mut chain = Blockchain {
-            chain: Vec::new(),
-            difficulty: 5, // Difficulty: match the first 4 bytes (2 is the minimum assignable)
-        };
+        let mut chain = Blockchain { chain: Vec::new() };
         chain.add_genesis_block();
         chain
     }
@@ -35,7 +31,7 @@ impl Blockchain {
     pub fn add_block(&mut self, data: Vec<Transaction>) {
         let previous_block = self.chain.last().expect("Genesis didn't happen");
         let mut new_block = Block::new(previous_block.index + 1, data, previous_block.hash.clone());
-        new_block.mine_block(self.difficulty);
+        new_block.mine_block();
         self.chain.push(new_block);
     }
 

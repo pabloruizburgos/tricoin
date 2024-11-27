@@ -12,6 +12,7 @@ pub struct Block {
     pub previous_hash: String,
     pub hash: String,
     pub nonce: u64, // For the PoW, when changed, the hash canges (here it is incremental by 1)
+    pub difficulty: usize, // the target byte slice that the beginning of the hash must match
 }
 
 impl Block {
@@ -24,6 +25,9 @@ impl Block {
             previous_hash,
             hash: String::new(),
             nonce: 0,
+            // NOTE: Difficulty should be specifically set for each block
+            // but for simplicity, here we assume a difficulty of 5 for every block
+            difficulty: 5, // Difficulty: match the first 4 bytes (2 is the minimum assignable)
         };
         block.hash = block.calculate_hash();
         block.merkle_root = block.calculate_merkle_root();
@@ -41,9 +45,9 @@ impl Block {
         format!("{:x}", hasher.finalize())
     }
 
-    pub fn mine_block(&mut self, difficulty: usize) {
-        let target = "0".repeat(difficulty); // Target: first difficulty bytes must be 0
-        while &self.hash[..difficulty] != target {
+    pub fn mine_block(&mut self) {
+        let target = "0".repeat(self.difficulty); // Target: first difficulty bytes must be 0
+        while &self.hash[..self.difficulty] != target {
             self.timestamp = current_timestamp();
             self.nonce += 1;
             self.hash = self.calculate_hash();
