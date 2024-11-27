@@ -15,7 +15,6 @@ impl Blockchain {
 
     // This "genesis block" would be the first in our chain by default always
     fn add_genesis_block(&mut self) {
-        // Block constructor: {index, data, prev_hash}
         let genesis_transaction = Transaction::new(
             "".to_string(),
             "".to_string(),
