@@ -51,20 +51,30 @@ impl Block {
         println!("Block mined: {}", self.hash)
     }
 
+    /*
+     * Calculates the merkle root of the transactions 'data' by taking each transaction as a single
+     * string and hashes it, and returns said hash
+     */
     fn calculate_merkle_root(&self) -> String {
-        let data = self.data[0].display(); // WARNING: rn just taking 1 transaction, not acting as Vec
+        println!("calculating merkle root of {}", self.index);
+        let data = self.get_all_transactions_as_string();
         let mut hasher = Sha256::new();
         hasher.update(data);
         format!("{:x}", hasher.finalize())
     }
 
-    // FIX: change so it admits really a vec
-    fn display_transactions(&self) -> String {
-        self.data[0].display()
+    /*
+     * Takes each single-string transaction and joins it
+     * Returns a long string that contains every transactions info
+     */
+    fn get_all_transactions_as_string(&self) -> String {
+        let mut vector_transactions: Vec<String> = Vec::new();
+        for i in 0..self.data.len() {
+            vector_transactions.push(self.data[i].get_transaction_as_string());
+        }
+        vector_transactions.join("")
     }
 
-    // NOTE: the transactions aren't included in the header (tho they are via the merkle root),
-    // this guarantees more secure info management
     pub fn display(&self) {
         print!(
             "\nBlock: 
@@ -83,7 +93,8 @@ impl Block {
             self.previous_hash,
             self.hash,
             self.nonce,
-            self.display_transactions(),
+            self.data[0].display(), // WARNING: rn just taking 1 transaction, not acting as Vec
         );
+        // NOTE: transactions aren't included in the header (they are via the merkle root)
     }
 }

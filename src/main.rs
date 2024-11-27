@@ -18,8 +18,8 @@ fn main() {
     // Add new blocks to the blockchain
     println!("\nMining new blocks...");
     blockchain.add_block(transactions.clone());
-    blockchain.add_block(transactions.clone());
-    blockchain.add_block(transactions.clone());
+    //blockchain.add_block(transactions.clone());
+    //blockchain.add_block(transactions.clone());
 
     // Verify blockchain integrity
     if blockchain.is_valid() {

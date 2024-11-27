@@ -27,6 +27,17 @@ impl Transaction {
         }
     }
 
+    /*
+     * This function transforms the transaction into a concatenatted string of all the info about
+     * it and returns it just like that, for it to be hashed later.
+     */
+    pub fn get_transaction_as_string(&self) -> String {
+        format!(
+            "{}{}{}{}{}",
+            self.sender, self.receiver, self.amount, self.fee, self.message
+        )
+    }
+
     pub fn display(&self) -> String {
         format!(
             "Sender: {}
