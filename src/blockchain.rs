@@ -1,7 +1,6 @@
 use crate::block::Block;
 use crate::transaction::Transaction;
 use crate::utils::current_timestamp;
-use rust_decimal::Decimal;
 
 pub struct Blockchain {
     pub chain: Vec<Block>,
@@ -24,8 +23,8 @@ impl Blockchain {
         let genesis_transaction = Transaction::new(
             "".to_string(),
             "".to_string(),
-            Decimal::new(5000, 2),
-            Decimal::new(0, 0),
+            50.00,
+            0.00,
             "The Times 26/Nov/2024 Chancellor on brink of second bailout for banks".to_string(),
         );
         let mut genesis_block = Block::new(0, vec![genesis_transaction], "0".to_string());
@@ -66,6 +65,6 @@ impl Blockchain {
         for block in &self.chain {
             block.display();
         }
-        println!("\n\nTotal mining time: {:?}s", self.total_time_mining()); // delete when due
+        println!("\nTotal mining time: {:?}s", self.total_time_mining()); // delete when due
     }
 }

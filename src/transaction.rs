@@ -1,23 +1,17 @@
-use rust_decimal::Decimal; // NOTE: maybe use float instead?
+// use rust_decimal::Decimal;  NOTE: if financial operations supported, may come as handy
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Transaction {
     pub sender: String,
     pub receiver: String,
-    pub amount: Decimal,
-    pub fee: Decimal,
+    pub amount: f32,
+    pub fee: f32,
     pub message: String,
 }
 
 impl Transaction {
-    pub fn new(
-        sender: String,
-        receiver: String,
-        amount: Decimal,
-        fee: Decimal,
-        message: String,
-    ) -> Self {
+    pub fn new(sender: String, receiver: String, amount: f32, fee: f32, message: String) -> Self {
         Transaction {
             sender,
             receiver,
@@ -38,15 +32,16 @@ impl Transaction {
         )
     }
 
-    pub fn display(&self) -> String {
-        format!(
-            "Sender: {}
+    pub fn display(&self) {
+        print!(
+            "   
+        Sender: {}
         Receiver: {}
         Amount: {}
         Fee: {}
         Message: {}\n",
             self.sender, self.receiver, self.amount, self.fee, self.message
-        )
+        );
     }
 
     pub fn create_transactions() -> Vec<Transaction> {
@@ -54,22 +49,22 @@ impl Transaction {
         let transaction1 = Transaction::new(
             "Alice".to_string(),
             "Bob".to_string(),
-            Decimal::new(10, 1),
-            Decimal::new(1, 1),
+            10.00,
+            0.01,
             String::new(),
         );
         let transaction2 = Transaction::new(
             "KLM S.L.".to_string(),
             "Pablo".to_string(),
-            Decimal::new(25000, 2),
-            Decimal::new(2, 2),
+            250.00,
+            0.20,
             String::new(),
         );
         let transaction3 = Transaction::new(
             "Alice".to_string(),
             "Bob".to_string(),
-            Decimal::new(2315, 2),
-            Decimal::new(2, 1),
+            43.15,
+            0.02,
             String::new(),
         );
         transactions.push(transaction1);
