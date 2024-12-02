@@ -27,7 +27,7 @@ impl Block {
             nonce: 0,
             // NOTE: Difficulty should be specifically set for each block
             // but, for simplicity, here we assume a difficulty of 5 for every block
-            difficulty: 5, // Difficulty: match the first 5 bytes (2 is the minimum assignable)
+            difficulty: 6, // Difficulty: match the first 5 bytes (2 is the minimum assignable)
         };
         block.hash = block.calculate_hash();
         block.merkle_root = block.calculate_merkle_root();
