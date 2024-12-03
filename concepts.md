@@ -1,6 +1,6 @@
 # ARQUITECTURA DE LA BLOCKCHAIN
 
-###1- Bloques:
+### 1- Bloques:
 Cada bloque contendrá:
 - 'index': Posición del bloque en la cadena.
 - 'timestamp': Marca de tiempo de creación.
@@ -9,16 +9,16 @@ Cada bloque contendrá:
 - 'hash': (Calculado mediante , p.e., SHA-256)
 - 'difficulty': cantidad de bytes de dificultad para cumplir con el PoW. (Para este caso concreto, lo mantendremos igual para todos los bloques).
 
-###2- Cadena de bloques:
+### 2- Cadena de bloques:
 - Una lista encadenada de bloques.
 - Debe mantener la integridad referenciando hashes de bloques previos.
 
-###3- Consenso:
+### 3- Consenso:
 Para empezar, usaremos un algoritmo sencillo:
 - Proof of work (PoW): los nodos deben resolver un problema computacional (p.e. encontrar un hash con un número de ceros concretos).
 - Alternativa: modelo simple de "autoridad" para agregar bloques sin pruebas complejas.
 
-###4- Nodos y red:
+### 4- Nodos y red:
 - Define nodos que mantengan una copia de la blockchain y propaguen bloques.
 - Usa un protocolo simple (HTTP o WebSocket) para la comunicación entre nodos.
 
