@@ -2,12 +2,12 @@
 
 ### 1- Bloques:
 Cada bloque contendrá:
-- 'index': Posición del bloque en la cadena.
-- 'timestamp': Marca de tiempo de creación.
-- 'data': Info dentro del bloque (p.e. transacciones).
-- 'previous_hash': Hash del bloque anterior.
-- 'hash': (Calculado mediante , p.e., SHA-256)
-- 'difficulty': cantidad de bytes de dificultad para cumplir con el PoW. (Para este caso concreto, lo mantendremos igual para todos los bloques).
+- **'index'**: Posición del bloque en la cadena.
+- **'timestamp'**: Marca de tiempo de creación.
+- **'data'**: Info dentro del bloque (p.e. transacciones).
+- **'previous_hash'**: Hash del bloque anterior.
+- **'hash'**: (Calculado mediante , p.e., SHA-256)
+- **'difficulty'**: cantidad de bytes de dificultad para cumplir con el PoW. (Para este caso concreto, lo mantendremos igual para todos los bloques).
 
 ### 2- Cadena de bloques:
 - Una lista encadenada de bloques.
