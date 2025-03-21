@@ -22,7 +22,6 @@ No central bank needed, each person is participant of the blockchain and serves 
 
 ---
 This code just defines a block from scratch, how a new one is mined and its incorporations on the blockchain, but made in local with no other nodes to be included in the "tricoin network". Feel free to make any suggestions or improvements on it!!!
----
 
 ## 'tricoin-lite' branch
 This is the same exact approach followed on the main branch, except the fact that the handling of transactions is almost omitted. Here, we just take the 'data' related to a certain block and treat it as a simple string. This helps us understand the functions purely of the block without diving too deep in the transactions operations linked to each block. Having less functions (and not splitting a block into the block header and the transactions data itself), a block is treated as a whole.
